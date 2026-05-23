@@ -2,11 +2,12 @@
   "name": "devpulse",
   "version": "1.0.0",
   "description": "DevPulse - Internal Tech Issue & Feature Tracker",
-  "main": "server.ts",
+  "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch server.ts",
-    "start": "tsx server.ts",
+    "start": "node dist/server.js",
     "build": "tsc",
+    "vercel-build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
