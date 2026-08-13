@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import AppError from "../utility/AppError";
 
 const globalErrorHandler = (
-  err: any,
+  err: unknown,
   _req: Request,
   res: Response,
   _next: NextFunction,
@@ -16,11 +16,11 @@ const globalErrorHandler = (
     statusCode = err.statusCode;
     message = err.message;
     errors = err.errors;
-  } else if (err?.code === "23505") {
+  } else if (isPostgresDuplicateError(err)) {
     statusCode = StatusCodes.CONFLICT;
     message = "Duplicate entry. Resource already exists.";
     errors = err.detail;
-  } else if (err?.message) {
+  } else if (err instanceof Error) {
     message = err.message;
   }
 
@@ -33,5 +33,13 @@ const globalErrorHandler = (
 
   res.status(statusCode).json(body);
 };
+
+const isPostgresDuplicateError = (
+  error: unknown,
+): error is { code: string; detail?: string } =>
+  typeof error === "object" &&
+  error !== null &&
+  "code" in error &&
+  error.code === "23505";
 
 export default globalErrorHandler;
