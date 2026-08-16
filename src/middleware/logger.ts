@@ -1,10 +1,14 @@
-
 import type { NextFunction, Request, Response } from "express";
-import fs from "fs";
 
-const logger = (req: Request, res: Response, next: NextFunction) => {
-  const log = `\nMethod -> ${req.method} - Time -> ${Date.now()} - URL -> ${req.url}\n`;
-  fs.appendFile("logger.txt", log, (err) => {});
+/**
+ * Request logger.
+ *
+ * Writes to stdout rather than a file: serverless hosts (Vercel, Lambda)
+ * mount a read-only filesystem, so file-based logging silently fails there.
+ * Platform log drains capture stdout instead.
+ */
+const logger = (req: Request, _res: Response, next: NextFunction) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
   next();
 };
 
