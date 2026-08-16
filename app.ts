@@ -6,6 +6,7 @@ import express, {
   type Response,
 } from "express";
 import { StatusCodes } from "http-status-codes";
+import ensureDB from "./src/middleware/ensureDB";
 import logger from "./src/middleware/logger";
 import globalErrorHandler from "./src/middleware/globalErrorHandler";
 import router from "./src/routes/index";
@@ -26,7 +27,7 @@ app.get("/", (_req: Request, res: Response) => {
   });
 });
 
-app.use("/api", router);
+app.use("/api", ensureDB, router);
 
 app.use((_req: Request, res: Response) => {
   res.status(StatusCodes.NOT_FOUND).json({
