@@ -1,19 +1,10 @@
 import app from "../app";
-import { initDB } from "../src/db/index";
 
-let dbInitialized = false;
-
-const ensureDB = async () => {
-  if (dbInitialized) return;
-  await initDB();
-  dbInitialized = true;
-};
-
-export default async (req: any, res: any) => {
-  try {
-    await ensureDB();
-  } catch (err) {
-    console.error("DB init failed:", err);
-  }
-  return app(req, res);
-};
+/**
+ * Vercel serverless entry point.
+ *
+ * An Express app is itself a `(req, res)` request listener, so it can be the
+ * default export directly. Schema bootstrap is handled by the `ensureDB`
+ * middleware inside the app, which keeps this file free of untyped shims.
+ */
+export default app;
