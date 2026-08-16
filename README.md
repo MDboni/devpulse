@@ -4,8 +4,9 @@ A collaborative backend platform for software teams to report bugs, suggest feat
 
 ## Live URL
 
-- API: `https://your-deployment-url.vercel.app`
-- GitHub: `https://github.com/yourusername/devpulse`
+- **API base URL:** <https://devpulse-six-kappa.vercel.app>
+- **Health check:** <https://devpulse-six-kappa.vercel.app/>
+- **GitHub repository:** <https://github.com/MDboni/devpulse>
 
 ## Features
 
@@ -41,6 +42,7 @@ devpulse/
 │   ├── db/index.ts              # pg Pool + schema bootstrap
 │   ├── middleware/
 │   │   ├── auth.ts              # JWT verify + role guard
+│   │   ├── ensureDB.ts          # Lazy schema bootstrap (cold starts)
 │   │   ├── globalErrorHandler.ts
 │   │   ├── logger.ts
 │   │   └── index.d.ts           # Express.Request augmentation
@@ -72,7 +74,7 @@ devpulse/
 1. **Clone & install**
 
    ```bash
-   git clone https://github.com/yourusername/devpulse.git
+   git clone https://github.com/MDboni/devpulse.git
    cd devpulse
    npm install
    ```
@@ -181,9 +183,22 @@ Authorization: <JWT_TOKEN>
 
 The project is deploy-ready for **Vercel** (`vercel.json` is included). Set the following environment variables in your deployment dashboard:
 
-- `DATABASE_URL`
-- `JWT_SECRET`
-- `JWT_EXPIRES_IN` (optional, defaults to `7d`)
-- `BCRYPT_SALT_ROUNDS` (optional, defaults to `10`)
+| Variable             | Required | Notes                                                        |
+| -------------------- | -------- | ------------------------------------------------------------ |
+| `DATABASE_URL`       | yes      | Full PostgreSQL connection string, including the password     |
+| `JWT_SECRET`         | yes      | Long random string — never ship the placeholder from `.env.example` |
+| `JWT_EXPIRES_IN`     | no       | Defaults to `7d`                                              |
+| `BCRYPT_SALT_ROUNDS` | no       | Defaults to `10`; must stay between 8 and 12                  |
+
+> **Redeploy after changing any variable.** Vercel injects environment variables at build time, so an existing deployment keeps using the old values until it is rebuilt. A stale `DATABASE_URL` surfaces as `password authentication failed` on every database-backed route while the app itself looks healthy.
+
+Verify a deployment before relying on it:
+
+```bash
+curl https://<your-deployment>/                 # expects the health payload
+curl https://<your-deployment>/api/issues       # expects a 200 with a data array
+```
+
+The second call is the one that matters — it is the first request that actually touches PostgreSQL.
 
 You can also deploy to **Render** or **Railway** — both auto-detect the `npm start` script.
