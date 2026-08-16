@@ -1,12 +1,6 @@
 import { Pool } from "pg";
 import config from "../config/index";
 
-if (!config.database_url) {
-  throw new Error(
-    "DATABASE_URL is not set. Add it to .env locally, or to the environment variables of your deployment platform.",
-  );
-}
-
 export const pool = new Pool({
   connectionString: config.database_url,
   ssl: {
