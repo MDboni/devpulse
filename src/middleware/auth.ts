@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import config from "../config/index";
 import { pool } from "../db/index";
 import type { ROLES } from "../types/index";
-import AppError from "../utility/AppError";
+import AppError from "../utils/AppError";
 
 const auth = (...roles: ROLES[]) => {
   return async (req: Request, _res: Response, next: NextFunction) => {

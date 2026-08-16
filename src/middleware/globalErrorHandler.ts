@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import config from "../config/index";
-import AppError from "../utility/AppError";
+import AppError from "../utils/AppError";
 
 interface IPostgresError {
   code: string;

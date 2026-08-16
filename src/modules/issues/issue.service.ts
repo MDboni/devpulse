@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { pool } from "../../db/index";
-import AppError from "../../utility/AppError";
+import AppError from "../../utils/AppError";
 import type { ROLES } from "../../types/index";
 import type {
   ICreateIssuePayload,

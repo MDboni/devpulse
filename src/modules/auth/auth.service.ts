@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 import { pool } from "../../db/index";
 import config from "../../config/index";
-import AppError from "../../utility/AppError";
+import AppError from "../../utils/AppError";
 import type {
   ILoginPayload,
   ISignupPayload,

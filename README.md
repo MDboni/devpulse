@@ -59,7 +59,7 @@ devpulse/
 │   │       └── issue.service.ts
 │   ├── routes/index.ts          # Module route mounter
 │   ├── types/index.ts           # Shared types & role constants
-│   └── utility/
+│   └── utils/
 │       ├── AppError.ts
 │       ├── catchAsync.ts
 │       └── sendResponse.ts

@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import catchAsync from "../../utility/catchAsync";
-import sendResponse from "../../utility/sendResponse";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
 import { authService } from "./auth.service";
 
 const signup = catchAsync(async (req: Request, res: Response) => {

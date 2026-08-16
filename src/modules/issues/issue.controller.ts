@@ -1,8 +1,8 @@
 import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import catchAsync from "../../utility/catchAsync";
-import sendResponse from "../../utility/sendResponse";
-import AppError from "../../utility/AppError";
+import catchAsync from "../../utils/catchAsync";
+import sendResponse from "../../utils/sendResponse";
+import AppError from "../../utils/AppError";
 import { issueService } from "./issue.service";
 import type { IIssueListQuery } from "./issue.interface";
 
